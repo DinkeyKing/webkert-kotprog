@@ -1,0 +1,52 @@
+@import '../../../styles.scss';
+
+div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    background-color: $app-background-color;
+    color: $app-accent-color;
+}
+
+.main_component {
+    height: 100vh;
+}
+
+form div {
+    padding: 5px 5px 5px 5px;
+}
+
+form {
+    display: inline-grid;
+    width: 50%;
+    align-self: center;
+}
+
+mat-form-field{
+    padding: 5px 10px;
+}
+
+.subForm {
+    width: 100%;
+    display: inline;
+    flex-direction: row;
+}
+
+.buttons {
+    padding: 10px;
+}
+
+.buttons-div{
+    flex-direction: row;
+}
+
+button {
+    width: 100px;
+}
+
+.warning {
+    color: $app-warn-color;
+    font-size: medium;
+}

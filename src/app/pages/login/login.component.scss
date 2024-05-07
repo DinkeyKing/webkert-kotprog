@@ -1,0 +1,33 @@
+@import '../../../styles.scss';
+
+div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    background-color: $app-background-color;
+    color: $app-accent-color;
+}
+
+.main_component {
+    height: 100vh;
+    align-items: center;
+}
+
+.warning {
+    color: $app-warn-color;
+    font-size: medium;
+}
+
+.button{
+    padding: 10px 10px;
+}
+
+.button-container{
+    padding-bottom: 50px;
+}
+
+mat-form-field {
+    width: 50%;
+}

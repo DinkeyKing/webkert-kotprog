@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "webkert-5ee6c": {
+      "hosting": {
+        "projekt": [
+          "webkert-5ee6c"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "webkert-5ee6c"
+  }
+}
