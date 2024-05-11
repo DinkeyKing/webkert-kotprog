@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
+import { User } from './shared/models/User';
+import { UserService } from './shared/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,13 @@ import { AuthService } from './shared/services/auth.service';
 export class AppComponent {
   page : string = '';
   routes: Array<string> = [];
-  loggedInUser?: firebase.default.User | null;
+  loggedInUser?:  firebase.default.User | null;
+  userObject?: User | null;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  userSubscription?: Subscription;
+  userObjectSubscription?: Subscription;
+
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
     // Set routes array
@@ -28,14 +34,33 @@ export class AppComponent {
       }
     });
 
-    // Store current user in local storage
-    this.authService.isUserLoggedIn().subscribe(user => {
-      console.log(user);
-      this.loggedInUser = user;
-      localStorage.setItem('user', JSON.stringify(this.loggedInUser));
-    }, error => {
-      console.error(error);
-      localStorage.setItem('user', JSON.stringify('null'));
+    // Set logged in firebase user and user object
+    this.userSubscription = this.authService.isUserLoggedIn().subscribe({
+      next : user => {
+      this.loggedInUser = user ? user : null;
+
+      if (user){
+        this.userObjectSubscription = this.userService.getById(user.uid).subscribe({
+          next : (userObject) => {
+            this.userObject = userObject;
+            localStorage.setItem('userObject', JSON.stringify(userObject));  // Store user object in local storage
+            console.log(this.userObject)},
+          error: _ => {
+            this.userObject = null
+            localStorage.removeItem('userObject');
+            console.error('Error setting userObject!')
+          }
+        });
+      }
+      else{
+        this.userObject = null;
+        localStorage.removeItem('userObject');
+      }
+    },
+    error : _ => {
+      this.loggedInUser = null
+      console.error('Error setting loggedInUser!')
+    }
     });
   }
 
@@ -56,7 +81,14 @@ export class AppComponent {
 
   logout(_?: boolean) {
     this.authService.logout().then(() => {
+      this.loggedInUser = null;
+      this.userObject = null;
+      localStorage.removeItem('userObject');
+      this.userObjectSubscription?.unsubscribe();  // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       console.log('Logged out successfully.');
+
+      console.log(this.loggedInUser)
+      console.log(this.userObject)
     }).catch(error => {
       console.error(error);
     });

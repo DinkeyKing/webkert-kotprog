@@ -38,6 +38,7 @@ $projekt-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 
 $app-background-color : #141414;
+$app-sub-bg-color : #21201e;
 $app-text-color : white;
 $app-accent-color: mat.get-theme-color($projekt-theme, accent, A100);
 $app-warn-color : mat.get-theme-color($projekt-theme, warn, A100);

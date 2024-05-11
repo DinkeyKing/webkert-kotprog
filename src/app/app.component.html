@@ -13,12 +13,17 @@
         <img class="logo" src="/assets/carpet_logo.png">
         <div class="app-title">Carpet Shop</div>
         <div class="navigation-wrapper">
-        <ul class="navigation-items">
-            <li><a routerLink="/main">Main</a></li>
-            <li *ngIf="!(loggedInUser)"><a routerLink="/login">Login</a></li>
-            <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()">Logout</a></li>
-            <li><a routerLink="/signup">Register</a></li>
-        </ul>
+            <ul class="navigation-items">
+                <li><a routerLink="/main">Main</a></li>
+                <li *ngIf="!(loggedInUser)"><a routerLink="/login">Login</a></li>
+                <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()">Logout</a></li>
+                <li><a routerLink="/signup">Register</a></li>
+                <li *ngIf="userObject?.is_admin"><a routerLink="/admin">Admin</a></li>
+            </ul>
+        </div>
+        <div class="user" *ngIf="userObject">
+            <mat-icon class="icon"> person </mat-icon>
+            <p>{{userObject.username}}</p>
         </div>
     </mat-toolbar>
     <router-outlet></router-outlet>

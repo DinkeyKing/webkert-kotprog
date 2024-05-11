@@ -1,0 +1,32 @@
+<div class="add-container">
+    <mat-card>
+        <form [formGroup]="addFormGroup" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <mat-label for="name">Name: </mat-label>
+                <input matInput type="text" formControlName="name"/>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="type">Type: </mat-label>
+                <input matInput type="text" formControlName="type" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="description">Description: </mat-label>
+                <input matInput type="text" formControlName="description" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="price">Price: </mat-label>
+                <input matInput type="number" formControlName="price" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="price">Rating: </mat-label>
+                <input matInput type="number" formControlName="rating" />
+            </mat-form-field>
+            
+        </form>
+        <div class="buttons-div">
+            <span class="buttons">
+                <button mat-raised-button color="primary" type="submit">Add carpet</button>
+            </span>
+        </div>
+    </mat-card>
+</div>

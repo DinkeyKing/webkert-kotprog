@@ -52,3 +52,17 @@ mat-sidenav {
     object-fit: cover;
     padding-right: 20px;
 }
+
+.user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.icon{
+    padding-right: 20px;
+    object-fit: fill;
+    transform: scale(2);
+}

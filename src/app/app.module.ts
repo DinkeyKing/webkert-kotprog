@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AdminModule } from './pages/admin/admin.module';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    AdminModule,
   ],
   providers: [
     provideAnimationsAsync()

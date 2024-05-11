@@ -20,6 +20,7 @@ export class LoginComponent {
 
   async login() {
     this.loading = true;
+    this.error_flag = false;
 
     this.authService.login(this.email.value as string, this.password.value as string).then(cred => {
       console.log(cred);

@@ -36,7 +36,7 @@
         <span class="warning" *ngIf="signUpForm.get('email')?.errors?.['email'] && signUpForm.get('email')?.dirty"> Email format incorrect! </span>
         <span class="warning" *ngIf="signUpForm.get('password')?.errors?.['minlength'] && signUpForm.get('password')?.dirty"> Password must be at least 6 characters! </span>
         <span class="warning" *ngIf="signUpForm.errors?.['passwordMismatch'] && signUpForm.get('rePassword')?.dirty"> Password confirm does not match password! </span>
-        <span class="warning" *ngIf="signUpForm.errors?.['required'] && error_flag"> * marked fields are required! </span>
+        <span class="warning" *ngIf="required_error_flag && error_flag"> * marked fields are required! </span>
         <span class="warning" *ngIf="error_flag"> Registration is unsuccesful! </span>
     </div>
 </div>
