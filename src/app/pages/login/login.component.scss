@@ -11,7 +11,7 @@ div {
 }
 
 .main_component {
-    height: 100vh;
+    height: 50vh;
     align-items: center;
 }
 
@@ -29,5 +29,10 @@ div {
 }
 
 mat-form-field {
+    width: 50%;
+}
+
+.image {
+    height: auto;
     width: 50%;
 }

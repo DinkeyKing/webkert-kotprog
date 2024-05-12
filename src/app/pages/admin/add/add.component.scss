@@ -32,3 +32,15 @@ mat-card {
     height: 100%;
     width: 100%;
 }
+
+.file-input {
+    display: none;
+  }
+
+.error{
+    color: $app-warn-color;
+}
+
+.success{
+    color: $app-success-color;
+}

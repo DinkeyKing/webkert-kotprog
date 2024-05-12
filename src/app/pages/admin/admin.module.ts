@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
@@ -12,12 +13,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ModComponent } from './mod/mod.component';
 
 
 @NgModule({
   declarations: [
     AdminComponent,
-    AddComponent
+    AddComponent,
+    ModComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +36,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIcon,
+    HttpClientModule,
+    MatProgressBarModule
   ]
 })
 export class AdminModule { }

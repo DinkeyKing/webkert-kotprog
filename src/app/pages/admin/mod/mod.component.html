@@ -1,0 +1,48 @@
+<h2> Modify or delete carpet </h2>
+<div class="cards-container">
+    <div *ngFor="let carpetForm of carpetForms; let i = index">
+        <mat-card>
+          <form [formGroup]="carpetForm" (ngSubmit)="onSubmit(carpetForm)">
+             <!-- Hidden field for ID -->
+            <input formControlName="id" type="hidden">
+
+             <!-- Existing image display -->
+            <img [src]="carpetForm.value.imageUrl" alt="Carpet Image" style="width: 100%; max-height: 200px; object-fit: cover;">
+
+            <!-- Image file selector -->
+            <input type="file" (change)="onFileSelected($event, carpetForm.value.id)" hidden #fileInput>
+            <div class="file-upload">
+
+                <span>{{fileMap.get(carpetForm.value.id) || "No file uploaded yet."}}</span>
+
+                <button type="button"  mat-mini-fab color="primary" class="upload-btn"
+                    (click)="fileInput.click()">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+            </div>
+
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Type</mat-label>
+              <input matInput formControlName="type">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Price</mat-label>
+              <input matInput type="number" formControlName="price">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Rating</mat-label>
+              <input matInput type="number" formControlName="rating">
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Save Changes</button>
+          </form>
+        </mat-card>
+      </div>
+</div>

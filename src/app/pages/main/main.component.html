@@ -1,3 +1,27 @@
-<div class="main_component">
+<div class="main-component">
     <h1> Welcome to my Carpet Shop!</h1>
+    <div class="cards-container">
+        <div class="card-container" *ngFor="let carpet of carpets | async">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{ carpet.name }}</mat-card-title>
+                </mat-card-header>
+                <img class="image" [src]="carpet.imageUrl" alt="Photo of a carpet">
+                <mat-card-content>
+                    <span class="property"> <p>Type: </p> <p class="value">{{carpet.type }}</p> </span>
+                    <span class="property"> <p>Description: </p> <p class="value">{{carpet.description }}</p> </span>
+                    <span class="property"> <p>Price: </p> <p class="value">{{carpet.price + ' ft' }}</p> </span>
+                    <span class="property">
+                        <p>Rating: </p>
+                        <p class="value">
+                            <mat-icon *ngFor="let star of [].constructor(carpet.rating > 5 ? 5 : carpet.rating)">star</mat-icon>
+                        </p>
+                    </span>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" type="button">Add to cart</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
 </div>

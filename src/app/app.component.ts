@@ -81,10 +81,10 @@ export class AppComponent {
 
   logout(_?: boolean) {
     this.authService.logout().then(() => {
+      this.userObjectSubscription?.unsubscribe();  // IMPORTANT!!! MUST BE BEFORE SETTING NULLS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       this.loggedInUser = null;
       this.userObject = null;
       localStorage.removeItem('userObject');
-      this.userObjectSubscription?.unsubscribe();  // IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       console.log('Logged out successfully.');
 
       console.log(this.loggedInUser)

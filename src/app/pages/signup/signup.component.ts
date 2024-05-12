@@ -35,6 +35,7 @@ export class SignupComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rePassword: ['', [Validators.required]],
+      isAdmin : [false],
       name : this.fb.group({
         firstname : ['', [Validators.required]],
         lastname : ['', [Validators.required]]
@@ -85,7 +86,7 @@ export class SignupComponent {
           firstname: this.signUpForm.get('name.firstname')?.value as string,
           lastname: this.signUpForm.get('name.lastname')?.value as string
         },
-        is_admin : false
+        is_admin : this.signUpForm.get('isAdmin')?.value as boolean
       };
       this.userService.create(user).then(_ => {
         console.log('User added successfully.');

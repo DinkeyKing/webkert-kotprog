@@ -29,6 +29,10 @@ mat-sidenav {
     width: 250px;
 }
 
+mat-sidenav-container{
+    background-color: $app-background-color;
+}
+
 .navigation-wrapper {
     display: flex;
     flex-wrap: wrap;

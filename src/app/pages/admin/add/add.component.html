@@ -1,3 +1,4 @@
+<h2> Add carpet </h2>
 <div class="add-container">
     <mat-card>
         <form [formGroup]="addFormGroup" (ngSubmit)="onSubmit()">
@@ -21,12 +22,29 @@
                 <mat-label for="price">Rating: </mat-label>
                 <input matInput type="number" formControlName="rating" />
             </mat-form-field>
+
+            <input type="file" class="file-input" accept=".png,.jpg,.jpeg" (change)="onFileSelected($event)" #fileUpload>
+
+            <div class="file-upload">
+
+                <span>{{fileName || "No file uploaded yet."}}</span>
+
+                <button type="button"  mat-mini-fab color="primary" class="upload-btn"
+                    (click)="fileUpload.click()">
+                    <mat-icon>attach_file</mat-icon>
+                </button>
+                <mat-progress-bar *ngIf="uploadPercent" mode="determinate" [value]="uploadPercent | async"></mat-progress-bar>
+            </div>
+
+            <div class="buttons-div">
+                <span class="buttons">
+                    <button mat-raised-button color="primary" type="submit">Add carpet</button>
+                </span>
+            </div>
+
+            <span class="error" *ngIf="this.errorFlag"> Create failed! </span>
+            <span class="success" *ngIf="this.successFlag"> Create successful! </span>
             
         </form>
-        <div class="buttons-div">
-            <span class="buttons">
-                <button mat-raised-button color="primary" type="submit">Add carpet</button>
-            </span>
-        </div>
     </mat-card>
 </div>

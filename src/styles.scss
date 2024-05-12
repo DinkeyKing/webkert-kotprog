@@ -42,6 +42,7 @@ $app-sub-bg-color : #21201e;
 $app-text-color : white;
 $app-accent-color: mat.get-theme-color($projekt-theme, accent, A100);
 $app-warn-color : mat.get-theme-color($projekt-theme, warn, A100);
+$app-success-color : green;
 
 html, body { height: 100%; background-color: $app-background-color;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}

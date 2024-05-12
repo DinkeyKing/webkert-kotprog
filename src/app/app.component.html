@@ -1,14 +1,14 @@
 
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
-        <app-menu (selectedPage)="changePage($event)" [currentPage]="page" *ngIf="page" (onCloseSidenav)="onClose($event, sidenav)" [loggedInUser]="loggedInUser" (onLogout)="logout($event)"></app-menu>
+        <app-menu (selectedPage)="changePage($event)" [currentPage]="page" *ngIf="page" (onCloseSidenav)="onClose($event, sidenav)" [loggedInUser]="loggedInUser" [userObject]="userObject" (onLogout)="logout($event)"></app-menu>
     </mat-sidenav>
     <mat-sidenav-content>
     <mat-toolbar color="primary">
         <div class="hamburger-menu-wrapper">
-        <button mat-icon-button (click)="onToggleSidenav(sidenav)">
-            <mat-icon>menu</mat-icon>
-        </button>
+            <button mat-icon-button (click)="onToggleSidenav(sidenav)">
+                <mat-icon>menu</mat-icon>
+            </button>
         </div>
         <img class="logo" src="/assets/carpet_logo.png">
         <div class="app-title">Carpet Shop</div>

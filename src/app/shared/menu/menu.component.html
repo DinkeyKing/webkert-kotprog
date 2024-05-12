@@ -15,4 +15,8 @@
         <mat-icon>app_registration</mat-icon>
         <span>Register</span>
     </a>
+    <a mat-list-item routerLink="/admin" (click)="close()" *ngIf="userObject?.is_admin">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Admin</span>
+    </a>
 </mat-nav-list>

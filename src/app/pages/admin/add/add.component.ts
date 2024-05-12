@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, finalize } from 'rxjs';
+import { Carpet } from '../../../shared/models/Carpet';
+import { CarpetService } from '../../../shared/services/carpet.service';
 
 @Component({
   selector: 'app-add',
@@ -7,9 +11,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './add.component.scss'
 })
 export class AddComponent {
-  addFormGroup : FormGroup
 
-  constructor(private fb : FormBuilder){
+  addFormGroup : FormGroup
+  fileName : string = ""
+  file? : File
+  uploadPercent?: Observable<number | undefined>
+  errorFlag : boolean = false
+  successFlag : boolean = false;
+
+  constructor(private fb : FormBuilder, private storage: AngularFireStorage, private carpetService : CarpetService){
     this.addFormGroup = this.fb.group({
       name: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -20,6 +30,75 @@ export class AddComponent {
   }
 
   onSubmit() {
-    throw new Error('Method not implemented.');
+    this.errorFlag = false;
+    this.successFlag = false;
+    
+    if (this.addFormGroup.invalid){
+      this.errorFlag = true;
+      console.error('Invalid form!');
+      return
     }
+
+    if (this.file) {
+      const carpetId = this.carpetService.generateId();
+
+      const filePath = `images/${carpetId}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.file);
+
+      // Observing upload progress
+      this.uploadPercent = task.percentageChanges();
+
+      // Get notified when the download URL is available
+      task.snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe({
+              next : url => {
+                console.log("Download URL:", url);
+                const carpet : Carpet = 
+                {
+                  id : carpetId,
+                  name : this.addFormGroup.get('name')?.value as string,
+                  description : this.addFormGroup.get('description')?.value as string,
+                  price : this.addFormGroup.get('price')?.value as number,
+                  rating : this.addFormGroup.get('rating')?.value as number,
+                  type : this.addFormGroup.get('type')?.value as string,
+                  imageUrl : url
+                };
+
+                this.carpetService.create(carpet).then(_ => {
+                  console.log('Carpet added successfully.');
+                  this.successFlag = true;
+                }).catch(error => {
+                  console.error(error);
+                  this.errorFlag = true;
+                })
+              },
+              error : _ => {
+              console.error('Url get failed!');
+              this.errorFlag = true;
+            }
+            });
+          })
+      ).subscribe({
+        error : _ => {
+          console.error('Image upload failed!')
+          this.errorFlag = true;
+        }
+      });
+    }
+    else{
+      console.error('No file provided');
+      this.errorFlag = true;
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.file = input.files[0];
+      this.fileName = this.file.name; // Display the file name
+    }
+  }
+
 }
