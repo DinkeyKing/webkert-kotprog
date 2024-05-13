@@ -45,8 +45,15 @@ mat-card-title{
 mat-card {
     max-width: 400px;
     margin: 20px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     background-color: $app-sub-bg-color;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
 }
 
 .cards-container{
@@ -65,4 +72,16 @@ mat-card {
 .value{
     color: $app-text-color;
     padding: 0px 20px;
+}
+
+.success{
+    color: $app-success-color;
+}
+
+.error{
+    color: $app-warn-color;
+}
+
+p {
+    font-size: larger;
 }

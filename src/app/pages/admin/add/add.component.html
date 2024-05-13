@@ -42,8 +42,9 @@
                 </span>
             </div>
 
-            <span class="error" *ngIf="this.errorFlag"> Create failed! </span>
-            <span class="success" *ngIf="this.successFlag"> Create successful! </span>
+            <p class="error"> {{errorMessage}}  </p>
+            <p class="error" *ngIf="this.errorFlag"> Create failed! </p>
+            <p class="success" *ngIf="this.successFlag"> Create successful! </p>
             
         </form>
     </mat-card>

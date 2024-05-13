@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/User';
+import { where } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class UserService {
 
   getById(id: string) {
     return this.afs.collection<User>(this.collectionName).doc(id).valueChanges();
+  }
+
+  getByEmail(email : string){
+    return this.afs.collection<User>(this.collectionName, ref => ref.where('email', '==', email)).valueChanges();
   }
 
   update(user: User) {

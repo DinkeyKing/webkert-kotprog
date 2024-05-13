@@ -42,6 +42,9 @@
         <span class="warning" *ngIf="signUpForm.errors?.['passwordMismatch'] && signUpForm.get('rePassword')?.dirty"> Password confirm does not match password! </span>
         <span class="warning" *ngIf="required_error_flag && error_flag"> * marked fields are required! </span>
         <span class="warning" *ngIf="error_flag"> Registration is unsuccesful! </span>
+        <span *ngIf="firebaseErrorMessage" class="warning">
+            {{ firebaseErrorMessage }}
+        </span>
     </div>
 </div>
 

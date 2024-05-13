@@ -15,18 +15,7 @@ export class SignupComponent {
 
   error_flag : boolean = false;
   required_error_flag : boolean = false;
-
-  // signUpForm = new FormGroup({
-  //   email: new FormControl('', [Validators.required, Validators.email]),
-  //   password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-  //   rePassword: new FormControl('', [Validators.required]),
-  //   name: new FormGroup({
-  //     firstname: new FormControl('', Validators.required),
-  //     lastname: new FormControl('', Validators.required)
-  //   }, {validators : this.passwordMatchValidator})
-  // });
-
-
+  firebaseErrorMessage : string = "";
   signUpForm : FormGroup
 
 
@@ -60,6 +49,7 @@ export class SignupComponent {
   onSubmit() {
     this.required_error_flag = false;
     this.error_flag = false;
+    this.firebaseErrorMessage = "";
 
     if (this.signUpForm.invalid) {
       this.markAllAsTouched(this.signUpForm)
@@ -70,8 +60,6 @@ export class SignupComponent {
     }
 
     console.log(this.signUpForm.value);
-
-    this.signUpForm.errors
 
     this.authService.signup(this.signUpForm.get('email')?.value as string, this.signUpForm.get('password')?.value as string).then(cred => {
       console.log(cred);
@@ -98,6 +86,8 @@ export class SignupComponent {
 
     }).catch(error => {
       this.error_flag = true;
+      this.firebaseErrorMessage = error.message
+
       console.error(error);
     });
   }

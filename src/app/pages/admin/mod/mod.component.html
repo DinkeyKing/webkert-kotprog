@@ -1,4 +1,6 @@
 <h2> Modify or delete carpet </h2>
+<p class="success"> {{successMessage}} </p>
+<p class="error"> {{errorMessage}} </p>
 <div class="cards-container">
     <div *ngFor="let carpetForm of carpetForms; let i = index">
         <mat-card>
@@ -42,6 +44,9 @@
               <input matInput type="number" formControlName="rating">
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit">Save Changes</button>
+          </form>
+          <form (ngSubmit)="onDelete(carpetForm.get('id')?.value)">
+            <button mat-raised-button color="warning" type="submit">Delete</button>
           </form>
         </mat-card>
       </div>

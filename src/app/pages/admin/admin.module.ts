@@ -38,7 +38,7 @@ import { ModComponent } from './mod/mod.component';
     MatButtonModule,
     MatIcon,
     HttpClientModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ]
 })
 export class AdminModule { }

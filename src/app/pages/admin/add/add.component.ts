@@ -18,6 +18,7 @@ export class AddComponent {
   uploadPercent?: Observable<number | undefined>
   errorFlag : boolean = false
   successFlag : boolean = false;
+  errorMessage : string = "";
 
   constructor(private fb : FormBuilder, private storage: AngularFireStorage, private carpetService : CarpetService){
     this.addFormGroup = this.fb.group({
@@ -32,10 +33,12 @@ export class AddComponent {
   onSubmit() {
     this.errorFlag = false;
     this.successFlag = false;
+    this.errorMessage = "";
     
     if (this.addFormGroup.invalid){
       this.errorFlag = true;
       console.error('Invalid form!');
+      this.errorMessage = "Invalid form!";
       return
     }
 
@@ -69,14 +72,18 @@ export class AddComponent {
                 this.carpetService.create(carpet).then(_ => {
                   console.log('Carpet added successfully.');
                   this.successFlag = true;
+
+                  this.addFormGroup.reset();
                 }).catch(error => {
                   console.error(error);
                   this.errorFlag = true;
+                  this.errorMessage = "";
                 })
               },
               error : _ => {
               console.error('Url get failed!');
               this.errorFlag = true;
+              this.errorMessage = "Url get failed!";
             }
             });
           })
@@ -84,12 +91,14 @@ export class AddComponent {
         error : _ => {
           console.error('Image upload failed!')
           this.errorFlag = true;
+          this.errorMessage = 'Image upload failed!';
         }
       });
     }
     else{
       console.error('No file provided');
       this.errorFlag = true;
+      this.errorMessage = 'No file provided';
     }
   }
 

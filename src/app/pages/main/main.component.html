@@ -1,7 +1,14 @@
 <div class="main-component">
     <h1> Welcome to my Carpet Shop!</h1>
+    <form [formGroup]="searchForm">
+        <mat-form-field>
+          <mat-label>Search Carpets</mat-label>
+          <input matInput formControlName="search" placeholder="Type to search...">
+        </mat-form-field>
+    </form>
+    <p> Number of carpets found: {{carpetCount}} </p>
     <div class="cards-container">
-        <div class="card-container" *ngFor="let carpet of carpets | async">
+        <div class="card-container" *ngFor="let carpet of filteredCarpets | async">
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>{{ carpet.name }}</mat-card-title>
@@ -10,7 +17,7 @@
                 <mat-card-content>
                     <span class="property"> <p>Type: </p> <p class="value">{{carpet.type }}</p> </span>
                     <span class="property"> <p>Description: </p> <p class="value">{{carpet.description }}</p> </span>
-                    <span class="property"> <p>Price: </p> <p class="value">{{carpet.price + ' ft' }}</p> </span>
+                    <span class="property"> <p>Price: </p> <p class="value">{{carpet.price | currency}}</p> </span>
                     <span class="property">
                         <p>Rating: </p>
                         <p class="value">

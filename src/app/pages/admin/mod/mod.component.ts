@@ -11,9 +11,12 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   styleUrl: './mod.component.scss'
 })
 export class ModComponent {
-  carpets? : Observable<Carpet[]>
+
+  carpets? : Observable<Carpet[]>;
   carpetForms: FormGroup[] = [];
   fileMap: Map<string, File> = new Map();
+  successMessage : string = "";
+  errorMessage : string = "";
 
   constructor(private carpetService : CarpetService, private fb : FormBuilder,  private storage: AngularFireStorage) {}
 
@@ -34,7 +37,47 @@ export class ModComponent {
     });
   }
 
+  onDelete(id : string): void{
+    this.successMessage = "";
+    this.errorMessage = "";
+
+    let imageUrl :string= "";
+    this.carpetService.getById(id).subscribe({
+      next: carpet => {
+        if (carpet?.imageUrl === undefined || !carpet){
+          console.error('image url undefined, or no carpet');
+          return
+        }
+
+        imageUrl = carpet?.imageUrl as string
+
+        this.carpetService.delete(id).then(_ => {
+          console.log('Successful carpet delete')
+
+          this.storage.refFromURL(imageUrl).delete().subscribe({
+            next: _ => {
+              console.log('succesful delete from storage');
+              this.successMessage = "Delete successful!"
+            },
+            error : e => {
+              console.error(e)
+              "Delete failed!" + e
+            }
+          });
+        }).catch(error => {
+          console.error(error);
+          this.errorMessage = "Delete failed!" + error
+        })
+      }
+
+    })
+  }
+
+
   onSubmit(form: FormGroup): void {
+    this.successMessage = "";
+    this.errorMessage = "";
+
     if (form.valid) {
       const carpetId = form.value.id;
       const file = this.fileMap.get(carpetId);
@@ -59,7 +102,11 @@ export class ModComponent {
                 type : form.get('type')?.value as string,
                 imageUrl : url
               };
-              this.carpetService.update(carpet);
+              this.carpetService.update(carpet).then(_ => {
+                this.successMessage = "Successfull update!"
+              }).catch(error => {
+                this.errorMessage = "Update failed!" + error
+              });
             });
           })
         ).subscribe();
@@ -75,7 +122,11 @@ export class ModComponent {
           type : form.get('type')?.value as string,
           imageUrl : form.get('imageUrl')?.value as string,
         };
-        this.carpetService.update(carpet);
+        this.carpetService.update(carpet).then(_ => {
+          this.successMessage = "Successfull update!"
+        }).catch(error => {
+          this.errorMessage = "Update failed!" + error
+        });
       }
     }
   }
