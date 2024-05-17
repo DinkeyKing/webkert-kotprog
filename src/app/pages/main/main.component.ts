@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { Carpet } from '../../shared/models/Carpet';
 import { CarpetService } from '../../shared/services/carpet.service';
-import { Observable, debounceTime, map, startWith, switchMap } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, Subscription, debounceTime, map, startWith, switchMap } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartItem } from '../../shared/models/CartItem';
+import { CartItemService } from '../../shared/services/cart-item.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -10,40 +13,82 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
-  carpets? : Observable<Carpet[]>
+  //carpets? : Observable<Carpet[]>
   filteredCarpets? : Observable<Carpet[]>
   carpetCount : number = 0
   searchForm: FormGroup;
+  cartForms: FormGroup[] = [];
+  carpetsSubscription? : Subscription
+  cartMessage : string[] = []
+  cartError : string[] = []
 
-  constructor(private carpetService : CarpetService, private fb: FormBuilder) {
+  constructor(private carpetService : CarpetService, private fb: FormBuilder, private cartItemService : CartItemService, private router : Router) {
     this.searchForm = this.fb.group({
-      search: ['']
+      search: [''],
+      sortField: ['name'],
+      sortOrder: ['asc']
     });
   }
 
   ngOnInit(){
-
-    this.carpets = this.carpetService.getAll();
-
-      // Using switchMap to handle the search operation
-      this.filteredCarpets = this.searchForm.get('search')?.valueChanges.pipe(
-        startWith(''), // Start with no filter
-        debounceTime(300), // Optional: Debounce time to limit requests for fast typing
-        switchMap(text => this.filterCarpets(text) as Observable<any[]>) // Using switchMap to filter carpets
-      );
-
+    this.filteredCarpets = this.searchForm.valueChanges.pipe(
+      startWith(this.searchForm.value),
+      debounceTime(300),
+      switchMap(formValue =>
+        this.carpetService.getOrderedBy(formValue.sortField, formValue.sortOrder)
+      ),
+      map(carpets => carpets.filter(carpet => carpet.name.toLowerCase().includes(this.searchForm.get('search')?.value.toLowerCase())))
+    );
 
     // Get displayed carpet array length
-    this.filteredCarpets?.subscribe({
-      next: c => this.carpetCount = c.length
+    this.carpetsSubscription = this.filteredCarpets?.subscribe({
+      next: carpets => {
+        this.cartError = []
+        this.cartMessage = []
+        this.carpetCount = carpets.length;
+        this.cartForms = carpets.map(carpet => this.fb.group({
+          id: [carpet.id],
+          amount: [1, Validators.min(1)]
+        }));
+      },
+      error : e => console.error(e.message)
+      
     });
   }
 
-  filterCarpets(text: string): Observable<any[]> | undefined {
-    return this.carpets?.pipe(
-      map(carpets => carpets.filter(carpet => 
-        carpet.name.toLowerCase().includes(text.toLowerCase())
-      ))
-    );
+  onCarted(cartForm : FormGroup, index : number){
+    this.cartMessage[index] = "";
+    this.cartError[index] = "";
+    console.log('carted: ' + cartForm.get('id')?.value as string);
+
+    if (cartForm.invalid){
+      this.cartError[index] = '"Add to cart failed! Amount must be at least 1.';
+      return
+    }
+
+    const user = JSON.parse(localStorage.getItem('userObject') as string);
+    if (user) {
+      const cartItem : CartItem = 
+      {
+        userId : user.id,
+        carpetId : cartForm.get('id')?.value,
+        amount : cartForm.get('amount')?.value,
+        id : ""                                 // Id is set by service
+      }
+      this.cartItemService.create(cartItem).then(_ => {
+        this.cartMessage[index]  = "Carpet added to cart!"
+      }).catch(e => {
+        console.error(e.message);
+        this.cartError[index]  = "Add to cart failed! " + e.message;
+      });
+    }
+    else {
+      this.router.navigateByUrl('/login');  // Redirect to login if no user
+    }
+
+  }
+
+  ngOnDestroy(){
+    this.carpetsSubscription?.unsubscribe();
   }
 }

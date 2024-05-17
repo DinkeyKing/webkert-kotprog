@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, finalize } from 'rxjs';
+import { Observable, Subscription, debounceTime, finalize, map, startWith, switchMap } from 'rxjs';
 import { Carpet } from '../../../shared/models/Carpet';
 import { CarpetService } from '../../../shared/services/carpet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,15 +14,29 @@ export class ModComponent {
 
   carpets? : Observable<Carpet[]>;
   carpetForms: FormGroup[] = [];
+  searchForm : FormGroup
   fileMap: Map<string, File> = new Map();
   successMessage : string = "";
   errorMessage : string = "";
+  filteredCarpets? : Observable<Carpet[]>
+  carpetsSubscription? : Subscription
 
-  constructor(private carpetService : CarpetService, private fb : FormBuilder,  private storage: AngularFireStorage) {}
+  constructor(private carpetService : CarpetService, private fb : FormBuilder,  private storage: AngularFireStorage) {
+    this.searchForm = this.fb.group({
+      search: ['']
+    });
+  }
 
   ngOnInit(){
     this.carpets = this.carpetService.getAll();
-    this.carpets.subscribe(carpets => {
+
+    this.filteredCarpets = this.searchForm.get('search')?.valueChanges.pipe(
+      startWith(''), // Start with no filter
+      debounceTime(300), // Optional: Debounce time to limit requests for fast typing
+      switchMap(text => this.filterCarpets(text) as Observable<any[]>) // Using switchMap to filter carpets
+    );
+
+    this.carpetsSubscription = this.filteredCarpets?.subscribe(carpets => {
       this.carpetForms = carpets.map(carpet => 
         this.fb.group({
           id: [carpet.id, Validators.required],
@@ -36,6 +50,16 @@ export class ModComponent {
       );
     });
   }
+
+  
+  filterCarpets(text: string): Observable<any[]> | undefined {
+    return this.carpets?.pipe(
+      map(carpets => carpets.filter(carpet => 
+        carpet.name.toLowerCase().includes(text.toLowerCase())
+      ))
+    );
+  }
+
 
   onDelete(id : string): void{
     this.successMessage = "";
@@ -136,5 +160,9 @@ export class ModComponent {
     if (file) {
       this.fileMap.set(carpetId, file); // Store file temporarily
     }
+  }
+
+  ngOnDestroy(){
+    this.carpetsSubscription?.unsubscribe();
   }
 }

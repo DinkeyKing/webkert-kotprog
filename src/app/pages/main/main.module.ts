@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CustomCurrencyPipe } from '../../shared/pipes/custom-currency.pipe';
 
 
 
@@ -25,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    CustomCurrencyPipe
   ]
 })
 export class MainModule { }

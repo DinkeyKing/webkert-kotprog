@@ -1,6 +1,12 @@
 <h2> Modify or delete carpet </h2>
 <p class="success"> {{successMessage}} </p>
 <p class="error"> {{errorMessage}} </p>
+<form [formGroup]="searchForm">
+  <mat-form-field>
+    <mat-label>Search Carpets</mat-label>
+    <input matInput formControlName="search" placeholder="Type to search...">
+  </mat-form-field>
+</form>
 <div class="cards-container">
     <div *ngFor="let carpetForm of carpetForms; let i = index">
         <mat-card>
@@ -22,7 +28,6 @@
                     <mat-icon>attach_file</mat-icon>
                 </button>
             </div>
-
             <mat-form-field>
               <mat-label>Name</mat-label>
               <input matInput formControlName="name">

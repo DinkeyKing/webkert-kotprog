@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Carpet } from '../models/Carpet';
 import { Observable } from 'rxjs';
-import { where } from '@angular/fire/firestore';
+import firebase from 'firebase/compat';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,12 @@ export class CarpetService {
 
   getById(id: string) {
     return this.afs.collection<Carpet>(this.collectionName).doc(id).valueChanges();
+  }
+
+  getOrderedBy(sortField = 'name', sortDirection = 'asc'): Observable<Carpet[]> {
+    return this.afs.collection<Carpet>(this.collectionName, ref =>
+      ref.orderBy(sortField, sortDirection as firebase.firestore.OrderByDirection)
+    ).valueChanges();
   }
 
   update(carpet: Carpet) {

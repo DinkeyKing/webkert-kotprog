@@ -9,6 +9,8 @@ div {
 .main-component {
     align-items: center;
     background-color: $app-background-color;
+    display: flex;
+    flex-direction: column;
 }
 
 .image {
@@ -64,4 +66,18 @@ mat-card {
 .value{
     color: $app-text-color;
     padding: 0px 20px;
+}
+
+form {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    padding: 15px;
+    margin: 15px;
+}
+
+mat-form-field, select {
+    padding: 15px;
+    margin: 15px;
 }

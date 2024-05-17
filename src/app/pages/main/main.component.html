@@ -1,14 +1,26 @@
 <div class="main-component">
     <h1> Welcome to my Carpet Shop!</h1>
+
     <form [formGroup]="searchForm">
         <mat-form-field>
-          <mat-label>Search Carpets</mat-label>
-          <input matInput formControlName="search" placeholder="Type to search...">
+            <mat-label>Search Carpets</mat-label>
+            <input matInput formControlName="search" placeholder="Type to search...">
         </mat-form-field>
+        <select formControlName="sortField">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="rating">Rating</option>
+            <!-- Add other fields as needed -->
+        </select>
+        <select formControlName="sortOrder">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
     </form>
+
     <p> Number of carpets found: {{carpetCount}} </p>
     <div class="cards-container">
-        <div class="card-container" *ngFor="let carpet of filteredCarpets | async">
+        <div class="card-container" *ngFor="let carpet of filteredCarpets | async; let i = index">
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>{{ carpet.name }}</mat-card-title>
@@ -17,7 +29,7 @@
                 <mat-card-content>
                     <span class="property"> <p>Type: </p> <p class="value">{{carpet.type }}</p> </span>
                     <span class="property"> <p>Description: </p> <p class="value">{{carpet.description }}</p> </span>
-                    <span class="property"> <p>Price: </p> <p class="value">{{carpet.price | currency}}</p> </span>
+                    <span class="property"> <p>Price: </p> <p class="value">{{carpet.price | customCurrency}}</p> </span>
                     <span class="property">
                         <p>Rating: </p>
                         <p class="value">
@@ -26,7 +38,16 @@
                     </span>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-raised-button color="primary" type="button">Add to cart</button>
+                    <form [formGroup]="cartForms[i]" (ngSubmit)="onCarted(cartForms[i], i)">
+                        <input formControlName="id" type="hidden">
+                        <mat-form-field>
+                            <mat-label>Amount to put in cart</mat-label>
+                            <input matInput formControlName="amount" type="number">
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" type="submit">Add to cart</button>
+                    </form>
+                    <p class="success"> {{cartMessage[i]}} <p>
+                    <p class="error"> {{cartError[i]}} <p></p>
                 </mat-card-actions>
             </mat-card>
         </div>
