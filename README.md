@@ -1,27 +1,33 @@
-# Projekt
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+Admin fiókkal kell bejelentkezni a szőnyegek létrehozásához, módosításához, törléséhez.
+Tudsz létrehozni, vagy egyszerűen bejelentkezel : admin@admin.com, 123456
 
-## Development server
+Fordítási és futtatási hiba nincs.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Hosting van.
 
-## Code scaffolding
+Elegendő interfész és kollekció van. (4 kollekció (User, Carpet, CartItem, Purchase), 7 interfész)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Elég reszponzív. (Van sidenav menu is kicsi képernyő szélességnél)
 
-## Build
+Sorok száma és hossza nem léi túl a megengedettet.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Sok (elegendő) attribútum és strukturális direktíva.
 
-## Running unit tests
+Sok (elegendő) material elem. 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1 saját pipe. (customCurrency)
 
-## Running end-to-end tests
+Van ngOnInit, ngOnDestroy, ngAfterViewInit. (3 lifecycle hook)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Minden CRUD művelet teljesül a szőnyegekre.
 
-## Further help
+Firestore működik.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Sok 'where'-es lekérdezés + 1 'order by'-os.
+
+8 route.
+
+3 oldal védve van. (admin, purchases, cart)
+
+Túl sok időt töltöttem ezzel.
