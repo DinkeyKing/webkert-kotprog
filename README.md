@@ -14,13 +14,15 @@ Sorok száma és hossza nem léi túl a megengedettet.
 
 Sok (elegendő) attribútum és strukturális direktíva.
 
+Adatátadás szülő és gyermek komponensek között (legalább 1 @Input és 1 @Output) <- Megvan
+
 Sok (elegendő) material elem. 
 
 1 saját pipe. (customCurrency)
 
 Van ngOnInit, ngOnDestroy, ngAfterViewInit. (3 lifecycle hook)
 
-Minden CRUD művelet teljesül a szőnyegekre.
+Minden CRUD művelet teljesül a szőnyegekre. (Minden CRUD service-ekben van kiszervezve)
 
 Firestore működik.
 
