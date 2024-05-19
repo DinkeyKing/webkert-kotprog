@@ -48,7 +48,8 @@ export class MainComponent {
         this.carpetCount = carpets.length;
         this.cartForms = carpets.map(carpet => this.fb.group({
           id: [carpet.id],
-          amount: [1, Validators.min(1)]
+          amount: [1, Validators.min(1)],
+          carpetName: [carpet.name]
         }));
       },
       error : e => console.error(e.message)

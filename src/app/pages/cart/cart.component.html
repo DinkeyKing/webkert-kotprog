@@ -1,5 +1,6 @@
-<div class="cart-container">
-    <table mat-table [dataSource]="displayCartItems$" class="mat-elevation-z8">
+<div class="main-component">
+  <div class="cart-container">
+    <table #table mat-table [dataSource]="displayCartItems" class="mat-elevation-z8" [trackBy]="trackByFn">
       <!-- Carpet Name Column -->
       <ng-container matColumnDef="carpetName">
         <th mat-header-cell *matHeaderCellDef> Carpet Name </th>
@@ -11,8 +12,33 @@
         <th mat-header-cell *matHeaderCellDef> Amount </th>
         <td mat-cell *matCellDef="let element"> {{ element.amount }} </td>
       </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let element"> {{ element.price | customCurrency}} </td>
+      </ng-container>
+
+      <!-- Delete Button Column -->
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="accent" (click)="deleteItem(element.cartItemId)">Delete</button>
+      </td>
+    </ng-container>
     
-      <tr mat-header-row *matHeaderRowDef="['carpetName', 'amount']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['carpetName', 'amount'];"></tr>
+      <tr mat-header-row *matHeaderRowDef="['carpetName', 'amount', 'price', 'delete']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['carpetName', 'amount', 'price', 'delete'];"></tr>
     </table>
   </div>
+
+    <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Adress to ship to</mat-label>
+        <input matInput formControlName="address" type="text">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Confirm purchase</button>
+    </form>
+    <p class="error"> {{errorMessage}} </p>
+    <p class="success"> {{successMessage}} </p>
+</div>

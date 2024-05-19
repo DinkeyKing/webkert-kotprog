@@ -32,7 +32,8 @@ const routes: Routes = [
   },
   { 
     path: 'purchases', 
-    loadChildren: () => import('./pages/purchases/purchases.module').then(m => m.PurchasesModule) 
+    loadChildren: () => import('./pages/purchases/purchases.module').then(m => m.PurchasesModule),
+    canActivate: [authGuard]
   },
   {
     path: '',

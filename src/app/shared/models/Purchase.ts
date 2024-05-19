@@ -1,8 +1,14 @@
-import { CartItem } from "./CartItem"
+import { Timestamp } from "@angular/fire/firestore"
+import { PurchasedItem } from "./PurchasedItem"
 
 export interface Purchase {
     id : string
-    items : CartItem[]
+    userId : string
+    purchasedItemIds : string[]
     address : string
-    date : Date
+    date : Timestamp
+}
+
+export interface DisplayPurchase extends Purchase {
+    items: PurchasedItem[];
 }

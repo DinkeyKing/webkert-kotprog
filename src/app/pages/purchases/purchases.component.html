@@ -1,1 +1,13 @@
-<p>purchases works!</p>
+<div class="main-component">
+  <p class="accent" *ngIf="!purchases || purchases?.length === 0"> You have no purchases <p>
+  <div class="purchase-container" *ngFor="let purchase of purchases">
+    <h3>Purchase on {{ purchase.date.toDate() | date }}</h3>
+    <p class="accent">Address: {{ purchase.address }}</p>
+    <div *ngFor="let item of purchase?.items">
+      <p>{{ item.carpetName }} - Quantity: {{ item.amount }} - Price: {{ item.price | customCurrency }}</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="onDeletePurchase(purchase.id)">Remove Purchase</button>
+  </div>
+  <p class="success"> {{successMessage}} </p>
+  <p class="error"> {{errorMessage}} </p>
+</div>

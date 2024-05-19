@@ -1,0 +1,30 @@
+@import '../../../styles.scss';
+
+.main-component {
+  background-color: $app-background-color;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.purchase-container{
+    background-color: $app-sub-bg-color;
+    padding: 5vh;
+    margin: 5vh;
+}
+
+div {
+    color: $app-text-color;
+}
+
+h3, .accent {
+    color: $app-accent-color;
+}
+
+.success {
+    color: $app-success-color;
+}
+
+.error {
+    color: $app-warn-color;
+}

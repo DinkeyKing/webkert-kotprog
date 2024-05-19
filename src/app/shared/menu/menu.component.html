@@ -3,6 +3,14 @@
         <mat-icon>grid_view</mat-icon>
         <span>Main</span>
     </a>
+    <a mat-list-item routerLink="/cart" (click)="close()" *ngIf="loggedInUser">
+        <mat-icon>shopping_cart_checkout</mat-icon>
+        <span>Cart</span>
+    </a>
+    <a mat-list-item routerLink="/purchases" (click)="close()" *ngIf="loggedInUser">
+        <mat-icon>local_shipping</mat-icon>
+        <span>Purchases</span>
+    </a>
     <a mat-list-item routerLink="/login" (click)="close()" *ngIf="!loggedInUser">
         <mat-icon>login</mat-icon>
         <span>Login</span>

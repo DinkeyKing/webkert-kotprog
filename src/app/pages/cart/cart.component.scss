@@ -1,4 +1,43 @@
+@import '../../../styles.scss';
+
+.main-component {
+  align-items: center;
+  background-color: $app-background-color;
+  display: flex;
+  flex-direction: column;
+}
+
 .cart-container {
-    max-width: 800px;
-    margin: auto;
-  }
+  width: 50%;
+  align-self: center;
+  padding: 10vh;
+}
+
+table {
+  background-color: $app-sub-bg-color;
+  color: $app-text-color;
+}
+
+th {
+  color: $app-accent-color;
+}
+
+tr {
+  color: $app-text-color;;
+}
+
+form{
+  align-items: center;
+  background-color: $app-sub-bg-color;
+  display: flex;
+  flex-direction: column;
+  padding: 10vh;
+}
+
+.success {
+  color: $app-success-color;
+}
+
+.error {
+  color: $app-warn-color;
+}

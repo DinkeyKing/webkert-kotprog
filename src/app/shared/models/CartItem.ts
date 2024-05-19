@@ -9,5 +9,6 @@ export interface CartItem {
 export interface DisplayCartItem {
     carpetName: string;
     amount: number;
+    price: number;
     cartItemId: string;
 }
